@@ -4,10 +4,11 @@ Weather informer is simple Spring Boot application based on Webflux (Project rea
 It has end-to-end tests written in Spock.
 
 ### Stack technology:
-  - JAVA 8
+  - JAVA 8, Groovy
   - Lombok - is a java library that automatically plugs into your editor and build tools, spicing up your java
   - Gradle
   - Spring BOOT 2.1.x
   - Spring Webflux - provides reactive programming support for web applications.
   - Vavr - functional library for Java
+  - Spock - is a testing and specification framework for Java and Groovy applications
   - Mockwebserver - a scriptable web server for testing HTTP clients
