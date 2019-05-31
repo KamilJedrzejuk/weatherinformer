@@ -12,3 +12,22 @@ It has end-to-end tests written in Spock.
   - Vavr - functional library for Java
   - Spock - is a testing and specification framework for Java and Groovy applications
   - Mockwebserver - a scriptable web server for testing HTTP clients
+
+### Requirements
+  - Service should expose REST API
+  - We can ask for weather by city name
+  - Response should this information:
+     - city
+     - temperature
+     - pressure
+     - humidity
+  - Service should presents results in metrics units
+  - Example response for city London:
+     ```json
+     {
+       "city": "London",
+       "temperature" : 8,
+       "pressure": 1011,
+       "humidity":81
+     }
+     ```
