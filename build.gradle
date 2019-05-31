@@ -1,0 +1,121 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.4.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("net.ltgt.gradle:gradle-apt-plugin:0.21")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'net.ltgt.apt'
+
+group = 'com.twitter.kamilyedrzejuq'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+mainClassName = "com.twitter.kamilyedrzejuq.Application"
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+compileJava.dependsOn(processResources)
+
+[bootJar, bootRun, bootDistTar, bootDistZip, distTar, distZip]*.enabled = false
+jar.enabled = true
+
+project.ext.versions = [
+        lombokVersion                       : '1.18.2',
+        swaggerVersion                      : '2.9.2',
+        spockVersion                        : '1.2-groovy-2.5',
+        vavrVersion                         : '0.10.0',
+        mockWebServerVersion                : '3.14.1'
+]
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+        events "started", "passed", "skipped", "failed"
+
+    }
+}
+
+sourceSets {
+    integrationTest {
+        groovy {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integrationTest/groovy')
+        }
+        resources.srcDir file('src/integrationTest/resources')
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom compileOnly
+    integrationTestImplementation.extendsFrom implementation
+    integrationTestImplementation.extendsFrom annotationProcessor
+    integrationTestImplementation.extendsFrom testImplementation
+}
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    include '**/*Spec.*'
+    include '**/*Test.*'
+
+    systemProperty 'spring.profiles.active', 'integration'
+    outputs.upToDateWhen { false }
+}
+
+
+dependencies {
+    compileOnly("org.projectlombok:lombok:${versions.lombokVersion}")
+    annotationProcessor("org.projectlombok:lombok:${versions.lombokVersion}")
+    
+    //implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("io.vavr:vavr:${versions.vavrVersion}")
+    
+
+    testImplementation("org.spockframework:spock-core:${versions.spockVersion}")
+    testImplementation("org.spockframework:spock-spring:${versions.spockVersion}")
+    
+    testImplementation("io.projectreactor:reactor-core")
+    testImplementation("io.projectreactor:reactor-test")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("com.squareup.okhttp3:mockwebserver:${versions.mockWebServerVersion}")
+
+}
+
+dependencyManagement {
+	imports {		
+		mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+	}
+}
+
+wrapper {
+    gradleVersion = '5.4.1'
+    distributionType = Wrapper.DistributionType.ALL
+}
