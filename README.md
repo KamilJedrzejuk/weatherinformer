@@ -1,6 +1,7 @@
 # Example of reactive microservice with hexagonal architecture.
 
-Weather informer is simple Spring Boot application based on Webflux (Project reactor), thats allow us retrievie weather informations from openweathermap site.
+Weather informer is simple Spring Boot application based on Webflux (Project reactor), that's allow us retrieve weather 
+information from openweathermap site.
 It has end-to-end tests written in Spock.
 
 ### Stack technology:
