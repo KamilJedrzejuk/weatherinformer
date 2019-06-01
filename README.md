@@ -17,7 +17,7 @@ It has end-to-end tests written in Spock.
 ### Requirements
   - Service should expose REST API
   - We can ask for weather by city name
-  - Response should this information:
+  - Response should has this information:
      - city
      - temperature
      - pressure

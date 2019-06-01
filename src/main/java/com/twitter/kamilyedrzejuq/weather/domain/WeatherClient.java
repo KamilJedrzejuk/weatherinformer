@@ -6,4 +6,5 @@ import reactor.core.publisher.Mono;
 public interface WeatherClient {
 
     Mono<WeatherResponseDTO> fetchWeather(City city);
+
 }

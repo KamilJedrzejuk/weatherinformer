@@ -18,6 +18,5 @@ public class WeatherService {
                 .map(domainMapper::mapFromDto)
                 .flatMap(weatherClient::fetchWeather)
                 .onErrorResume(exc -> Mono.error(new FetchWeatherException(exc.getMessage(), exc)));
-
     }
 }
