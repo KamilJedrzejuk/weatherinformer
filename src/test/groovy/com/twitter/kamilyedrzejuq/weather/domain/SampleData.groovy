@@ -1,7 +1,7 @@
 package com.twitter.kamilyedrzejuq.weather.domain
 
 import com.twitter.kamilyedrzejuq.weather.domain.dto.CityWeatherRequestDTO
-import com.twitter.kamilyedrzejuq.weather.domain.dto.WeatherResponseDTO
+import com.twitter.kamilyedrzejuq.weather.domain.dto.WeatherInfoDTO
 
 trait SampleData {
 
@@ -11,7 +11,9 @@ trait SampleData {
     static final int humidity = 77
 
     static final CityWeatherRequestDTO requestDTO = createRequest(city)
-    static final WeatherResponseDTO weatherResponseDTO = createResponse(city, temperature, pressure, humidity)
+    static final WeatherInfoDTO weatherResponseDTO = createResponse(city, temperature, pressure, humidity)
+
+    static final Throwable anyException = new RuntimeException()
 
 
     private static CityWeatherRequestDTO createRequest(String cityName) {
@@ -20,8 +22,8 @@ trait SampleData {
         return requestDTO
     }
 
-    private static WeatherResponseDTO createResponse(String city, int temperature, int pressure, int humidity) {
-        return WeatherResponseDTO.builder()
+    private static WeatherInfoDTO createResponse(String city, int temperature, int pressure, int humidity) {
+        return WeatherInfoDTO.builder()
                 .city(city)
                 .temperature(temperature)
                 .pressure(pressure)

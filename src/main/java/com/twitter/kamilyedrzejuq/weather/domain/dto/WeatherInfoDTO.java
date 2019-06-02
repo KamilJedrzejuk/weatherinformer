@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class WeatherResponseDTO {
+public class WeatherInfoDTO {
     private String city;
     private int temperature;
     private int pressure;

@@ -1,7 +1,7 @@
 package com.twitter.kamilyedrzejuq.weather.domain;
 
 import com.twitter.kamilyedrzejuq.weather.domain.dto.CityWeatherRequestDTO;
-import com.twitter.kamilyedrzejuq.weather.domain.dto.WeatherResponseDTO;
+import com.twitter.kamilyedrzejuq.weather.domain.dto.WeatherInfoDTO;
 import com.twitter.kamilyedrzejuq.weather.domain.exception.FetchWeatherException;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -13,7 +13,7 @@ public class WeatherService {
     private final DomainMapper domainMapper;
     private final WeatherClient weatherClient;
 
-    Mono<WeatherResponseDTO> fetch(Mono<CityWeatherRequestDTO> request) {
+    Mono<WeatherInfoDTO> fetch(Mono<CityWeatherRequestDTO> request) {
         return request.map(requestValidator::validate)
                 .map(domainMapper::mapFromDto)
                 .flatMap(weatherClient::fetchWeather)
