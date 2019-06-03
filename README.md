@@ -19,7 +19,7 @@ It has end-to-end tests written in Spock.
   - We can ask for weather by city name
   - Response should has this information:
      - city
-     - temperature
+     - temp
      - pressure
      - humidity
   - Service should presents results in metrics units
@@ -27,7 +27,7 @@ It has end-to-end tests written in Spock.
      ```json
      {
        "city": "London",
-       "temperature" : 8,
+       "temp" : 8,
        "pressure": 1011,
        "humidity":81
      }

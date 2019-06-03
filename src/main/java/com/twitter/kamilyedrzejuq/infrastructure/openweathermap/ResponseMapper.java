@@ -75,7 +75,7 @@ class ResponseMapper extends StdDeserializer<WeatherInfoDTO> {
      * @param originalResponse - a json object
      * @return WeatherInfoDTO
      */
-    WeatherInfoDTO mapFromJson(String originalResponse) {
+    private WeatherInfoDTO mapFromJson(String originalResponse) {
             JsonObject jobj = new Gson().fromJson(originalResponse, JsonObject.class);
             JsonObject main = jobj.get("main").getAsJsonObject();
 
@@ -86,7 +86,7 @@ class ResponseMapper extends StdDeserializer<WeatherInfoDTO> {
 
             return WeatherInfoDTO.builder()
                     .city(city)
-                    .temperature(temp)
+                    .temp(temp)
                     .pressure(pressure)
                     .humidity(humidity)
                     .build();

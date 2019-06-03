@@ -7,8 +7,9 @@ import com.twitter.kamilyedrzejuq.weather.domain.exception.RequestValidationExce
 import reactor.core.publisher.Mono
 import spock.lang.Specification
 import spock.lang.Unroll
+import static com.twitter.kamilyedrzejuq.weather.domain.SampleData.*
 
-class WeatherServiceSpec extends Specification implements SampleData {
+class WeatherServiceSpec extends Specification {
 
     WeatherClient weatherClient = Stub()
     WeatherService weatherService = new WeatherConfiguration().weatherService(weatherClient)
@@ -28,7 +29,7 @@ class WeatherServiceSpec extends Specification implements SampleData {
         then: "system returns weather information"
         with(weather) {
             it.city == city
-            it.temperature == temperature
+            it.temp == temperature
             it.pressure == pressure
             it.humidity == humidity
         }
