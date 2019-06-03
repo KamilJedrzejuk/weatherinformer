@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: weather-informer
+  profiles:
+    active: dev
+
+
+openweather:
+  baseUrl: "https://samples.openweathermap.org/data/2.5"
+  units: "metric"
+  appid: "b6907d289e10d714a6e88b30761fae22"
+  maxTimeoutMillis: 5000

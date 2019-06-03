@@ -42,7 +42,8 @@ project.ext.versions = [
         swaggerVersion                      : '2.9.2',
         spockVersion                        : '1.2-groovy-2.5',
         vavrVersion                         : '0.10.0',
-        mockWebServerVersion                : '3.14.1'
+        mockWebServerVersion                : '3.14.1',
+        gsonVersion                         : '2.8.5'
 ]
 
 repositories {
@@ -93,10 +94,11 @@ dependencies {
     compileOnly("org.projectlombok:lombok:${versions.lombokVersion}")
     annotationProcessor("org.projectlombok:lombok:${versions.lombokVersion}")
     
-    //implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+
     implementation("io.vavr:vavr:${versions.vavrVersion}")
-    
+    implementation("com.google.code.gson:gson:${versions.gsonVersion}")
+
 
     testImplementation("org.spockframework:spock-core:${versions.spockVersion}")
     testImplementation("org.spockframework:spock-spring:${versions.spockVersion}")

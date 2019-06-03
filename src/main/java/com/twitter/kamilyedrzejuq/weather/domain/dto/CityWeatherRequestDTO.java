@@ -7,4 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class CityWeatherRequestDTO {
     private String cityName;
+
+    public static CityWeatherRequestDTO of(String cityName) {
+        return new CityWeatherRequestDTO(cityName);
+    }
 }

@@ -35,7 +35,7 @@ class WeatherServiceSpec extends Specification implements SampleData {
     }
 
     @Unroll
-    def "should throw exception when request is incorrect city - '#cityName'"() {
+    def "should throw exception when request is incorrect city - '#city'"() {
 
         given: "we have request with city name"
         CityWeatherRequestDTO request = new CityWeatherRequestDTO(cityName)
@@ -45,6 +45,8 @@ class WeatherServiceSpec extends Specification implements SampleData {
 
         then: "exception must be thrown"
         def exc = thrown(expectedException)
+
+        and: "it is a validation exception"
         exc.getCause().class == RequestValidationException
 
         where:

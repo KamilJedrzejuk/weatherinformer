@@ -13,7 +13,7 @@ public class WeatherService {
     private final DomainMapper domainMapper;
     private final WeatherClient weatherClient;
 
-    Mono<WeatherInfoDTO> fetch(Mono<CityWeatherRequestDTO> request) {
+    public Mono<WeatherInfoDTO> fetch(Mono<CityWeatherRequestDTO> request) {
         return request.map(requestValidator::validate)
                 .map(domainMapper::mapFromDto)
                 .flatMap(weatherClient::fetchWeather)
