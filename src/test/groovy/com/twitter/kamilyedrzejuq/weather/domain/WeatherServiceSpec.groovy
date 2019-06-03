@@ -19,7 +19,7 @@ class WeatherServiceSpec extends Specification implements SampleData {
         given: "We have a request with city name"
         CityWeatherRequestDTO request = requestDTO
 
-        and: "weather client can response successfully"
+        and: "weather client returns successfully response"
         weatherClient.fetchWeather(_ as City) >> Mono.just(weatherResponseDTO)
 
         when: "we ask for weather"

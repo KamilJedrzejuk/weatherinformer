@@ -3,7 +3,7 @@ package com.twitter.kamilyedrzejuq.web
 import com.twitter.kamilyedrzejuq.base.IntegrationSpec
 import com.twitter.kamilyedrzejuq.infrastructure.MockResponseFactory
 import org.springframework.http.MediaType
-import org.springframework.test.web.reactive.server.WebTestClient
+import static org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec
 
 class WeatherInfoEndpointTest extends IntegrationSpec {
 
@@ -13,18 +13,18 @@ class WeatherInfoEndpointTest extends IntegrationSpec {
         String cityName = "Warsaw"
 
         and:
-        andOpenWeatherMapReturnsSuccessfullyResponse()
+        openWeatherMapReturnsSuccessfullyResponse()
 
         when: "I go to /weather/{cityName}"
-        WebTestClient.ResponseSpec responseSpec = performGetRequest("/weather/{cityName}", cityName)
+        ResponseSpec response = performGetRequest("/weather/{cityName}", cityName)
 
         then: "response has property values"
-        responseSpec
+        response
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
 
         and: "response has expected body"
-        responseSpec.expectBody()
+        response.expectBody()
                 .json("""                  
                  {
                      "city":"Warsaw",
@@ -34,7 +34,7 @@ class WeatherInfoEndpointTest extends IntegrationSpec {
                  }""")
     }
 
-    private void andOpenWeatherMapReturnsSuccessfullyResponse() {
+    private void openWeatherMapReturnsSuccessfullyResponse() {
         mockWebServer.enqueue(MockResponseFactory.returnSuccessfullySampleResponse())
     }
 }
