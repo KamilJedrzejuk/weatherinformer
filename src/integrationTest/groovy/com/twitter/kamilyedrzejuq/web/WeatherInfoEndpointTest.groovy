@@ -1,7 +1,7 @@
 package com.twitter.kamilyedrzejuq.web
 
 import com.twitter.kamilyedrzejuq.base.IntegrationSpec
-import com.twitter.kamilyedrzejuq.infrastructure.MockResponseFactory
+import com.twitter.kamilyedrzejuq.infrastructure.openweathermap.MockResponseFactory
 import org.springframework.http.MediaType
 import static org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec
 

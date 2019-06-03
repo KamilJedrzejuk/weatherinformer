@@ -1,4 +1,4 @@
-package com.twitter.kamilyedrzejuq.infrastructure;
+package com.twitter.kamilyedrzejuq.infrastructure.openweathermap;
 
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockWebServer;
@@ -10,16 +10,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 import spock.mock.DetachedMockFactory;
 
 @TestConfiguration
-public class TestConfig {
+public class WebClientTestConfig {
 
     private DetachedMockFactory factory = new DetachedMockFactory();
 
     public static HttpUrl mockWebServerURL;
 
     @Bean
-    MockWebServer mockWebServer() {
+    MockWebServer mockWebServer(WeatherClientConfig.OpenWeatherMapParam param) {
         MockWebServer mockWebServer = new MockWebServer();
-        mockWebServerURL = mockWebServer.url("/");
+        mockWebServerURL = mockWebServer.url(param.getBaseUrl());
         return mockWebServer;
     }
 

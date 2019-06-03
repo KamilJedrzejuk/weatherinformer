@@ -1,7 +1,7 @@
 package com.twitter.kamilyedrzejuq.base
 
 import com.twitter.kamilyedrzejuq.Application
-import com.twitter.kamilyedrzejuq.infrastructure.TestConfig
+import com.twitter.kamilyedrzejuq.infrastructure.openweathermap.WebClientTestConfig
 import groovy.transform.TypeChecked
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
@@ -18,7 +18,7 @@ import static org.springframework.test.web.reactive.server.WebTestClient.Respons
 
 @TypeChecked
 @SpringBootTest(classes = Application, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Import(TestConfig)
+@Import(WebClientTestConfig)
 @ActiveProfiles("test")
 abstract class IntegrationSpec extends Specification {
 

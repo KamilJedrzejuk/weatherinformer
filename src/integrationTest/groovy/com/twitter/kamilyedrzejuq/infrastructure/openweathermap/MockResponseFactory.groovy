@@ -1,4 +1,4 @@
-package com.twitter.kamilyedrzejuq.infrastructure
+package com.twitter.kamilyedrzejuq.infrastructure.openweathermap
 
 import okhttp3.mockwebserver.MockResponse
 import org.springframework.http.HttpHeaders
