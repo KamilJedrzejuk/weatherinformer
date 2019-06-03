@@ -56,7 +56,7 @@ repositories {
 test {
     testLogging {
         exceptionFormat = 'full'
-        events "started", "passed", "skipped", "failed"
+        events = ["STARTED", "PASSED", "SKIPPED", "FAILED"]
 
     }
 }

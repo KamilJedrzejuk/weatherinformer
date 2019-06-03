@@ -36,7 +36,7 @@ class WeatherServiceSpec extends Specification {
     }
 
     @Unroll
-    def "should throw exception when request is incorrect city - '#city'"() {
+    def "should throw exception when request is incorrect (cityName - '#cityName')"() {
 
         given: "we have request with city name"
         CityWeatherRequestDTO request = new CityWeatherRequestDTO(cityName)
