@@ -26,11 +26,10 @@ class WeatherInfoEndpointTest extends IntegrationSpec {
         and: "response has expected body"
         response.expectBody()
                 .json("""                  
-                 {
-                     "city":"Warsaw",
+                {    "city":"Warsaw",
+                     "temp":27,
                      "pressure":1018,
-                     "humidity":32,
-                     "temp":27
+                     "humidity":32
                  }""")
     }
 

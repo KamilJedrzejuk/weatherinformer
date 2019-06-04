@@ -44,7 +44,7 @@ class ExceptionHandlingAdvice {
 
     private ResponseEntity<ErrorMessage> propagateClientError(WebClientResponseException e) {
         HttpStatus statusCode = e.getStatusCode();
-        ErrorMessage errorMessage = createErrorMessage("Github error", e.getMessage());
+        ErrorMessage errorMessage = createErrorMessage("Openweathermap error", e.getMessage());
         return new ResponseEntity<>(errorMessage, statusCode);
     }
 
