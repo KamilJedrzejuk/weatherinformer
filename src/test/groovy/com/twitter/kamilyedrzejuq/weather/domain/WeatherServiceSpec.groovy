@@ -17,7 +17,7 @@ class WeatherServiceSpec extends Specification {
 
     def "should return successfully response"() {
 
-        given: "We have a request with city name"
+        given: "we have a request with city name"
         CityWeatherRequestDTO request = requestDTO
 
         and: "weather client returns successfully response"
