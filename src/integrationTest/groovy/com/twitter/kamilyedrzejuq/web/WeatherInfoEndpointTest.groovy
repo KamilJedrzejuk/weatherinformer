@@ -34,7 +34,7 @@ class WeatherInfoEndpointTest extends IntegrationSpec {
                  }""")
     }
 
-    def "should get not found response"() {
+    def "should get response that no city was found"() {
 
         given: "city name"
         String cityName = "XAXAF"
@@ -58,11 +58,39 @@ class WeatherInfoEndpointTest extends IntegrationSpec {
                  }""")
     }
 
+    def "should get timeout"() {
+
+        given: "city name"
+        String cityName = "Warsaw"
+
+        and:
+        openWeatherNotResponding()
+
+        when: "I go to /weather/{cityName}"
+        ResponseSpec response = performGetRequest("/weather/{cityName}", cityName)
+
+        then: "response has property values"
+        response
+                .expectStatus().isEqualTo(HttpStatus.GATEWAY_TIMEOUT)
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+
+        and: "response has expected body"
+        response.expectBody()
+                .json("""                  
+                {    "title":"Timeout error",
+                     "message":null
+                 }""")
+    }
+
     private void openWeatherMapReturnsSuccessfullyResponse() {
         mockWebServer.enqueue(MockResponseFactory.returnSuccessfullySampleResponse())
     }
 
     private void openWeatherMapReturnsNotFoundResponse() {
         mockWebServer.enqueue(MockResponseFactory.returnNotFoundSampleResponse())
+    }
+
+    private void openWeatherNotResponding() {
+        mockWebServer.enqueue(MockResponseFactory.noResponse())
     }
 }

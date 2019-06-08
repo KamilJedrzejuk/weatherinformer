@@ -55,7 +55,7 @@ class ExceptionHandlingAdvice {
     }
 
     private ResponseEntity<ErrorMessage> timeoutError(ReadTimeoutException e) {
-        HttpStatus statusCode = HttpStatus.REQUEST_TIMEOUT;
+        HttpStatus statusCode = HttpStatus.GATEWAY_TIMEOUT;
         ErrorMessage errorMessage = createErrorMessage("Timeout error", e.getMessage());
         return new ResponseEntity<>(errorMessage, statusCode);
     }
