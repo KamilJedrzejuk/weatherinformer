@@ -1,4 +1,4 @@
-package com.twitter.kamilyedrzejuq.weather.domain.dto;
+package com.twitter.kamilyedrzejuq.weather.domain.boundary;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

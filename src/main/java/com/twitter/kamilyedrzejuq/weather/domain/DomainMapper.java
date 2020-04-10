@@ -1,6 +1,6 @@
 package com.twitter.kamilyedrzejuq.weather.domain;
 
-import com.twitter.kamilyedrzejuq.weather.domain.dto.CityWeatherRequestDTO;
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.CityWeatherRequestDTO;
 
 class DomainMapper {
 

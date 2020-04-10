@@ -1,4 +1,4 @@
-package com.twitter.kamilyedrzejuq.weather.domain.dto;
+package com.twitter.kamilyedrzejuq.weather.domain.boundary;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

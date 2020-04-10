@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.twitter.kamilyedrzejuq.weather.domain.dto.WeatherInfoDTO;
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.WeatherInfoDTO;
 
 import java.io.IOException;
 

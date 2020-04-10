@@ -1,15 +1,15 @@
 package com.twitter.kamilyedrzejuq.web;
 
 import com.twitter.kamilyedrzejuq.weather.domain.WeatherService;
-import com.twitter.kamilyedrzejuq.weather.domain.dto.CityWeatherRequestDTO;
-import com.twitter.kamilyedrzejuq.weather.domain.dto.WeatherInfoDTO;
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.CityWeatherRequestDTO;
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.WeatherInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import static com.twitter.kamilyedrzejuq.weather.domain.dto.CityWeatherRequestDTO.of;
+import static com.twitter.kamilyedrzejuq.weather.domain.boundary.CityWeatherRequestDTO.of;
 
 @RestController
 @RequiredArgsConstructor

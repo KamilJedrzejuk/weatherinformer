@@ -1,6 +1,6 @@
 package com.twitter.kamilyedrzejuq.weather.domain;
 
-import com.twitter.kamilyedrzejuq.weather.domain.dto.CityWeatherRequestDTO;
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.CityWeatherRequestDTO;
 import com.twitter.kamilyedrzejuq.weather.domain.exception.RequestValidationException;
 import io.vavr.control.Either;
 import org.springframework.util.StringUtils;

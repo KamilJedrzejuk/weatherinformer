@@ -11,75 +11,72 @@ class WeatherInfoEndpointTest extends IntegrationSpec {
     def "should get weather info"() {
 
         given: "city name"
-        String cityName = "Warsaw"
+            String cityName = "Warsaw"
 
         and:
-        openWeatherMapReturnsSuccessfullyResponse()
+            openWeatherMapReturnsSuccessfullyResponse()
 
         when: "I go to /weather/{cityName}"
-        ResponseSpec response = performGetRequest("/weather/{cityName}", cityName)
+            ResponseSpec response = performGetRequest("/weather/{cityName}", cityName)
 
         then: "response has property values"
-        response
-                .expectStatus().isOk()
-                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+            response.expectStatus().isOk()
+                    .expectHeader().contentType(MediaType.APPLICATION_JSON)
 
         and: "response has expected body"
-        response.expectBody()
-                .json("""                  
-                {    "city":"Warsaw",
-                     "temp":27,
-                     "pressure":1018,
-                     "humidity":32
-                 }""")
+            response.expectBody()
+                    .json("""                  
+                    {    "city":"Warsaw",
+                         "temp":27,
+                         "pressure":1018,
+                         "humidity":32
+                     }""")
     }
 
     def "should get response that no city was found"() {
 
         given: "city name"
-        String cityName = "XAXAF"
+            String cityName = "XAXAF"
 
         and:
-        openWeatherMapReturnsNotFoundResponse()
+            openWeatherMapReturnsNotFoundResponse()
 
         when: "I go to /weather/{cityName}"
-        ResponseSpec response = performGetRequest("/weather/{cityName}", cityName)
+            ResponseSpec response = performGetRequest("/weather/{cityName}", cityName)
 
         then: "response has property values"
-        response
-                .expectStatus().isEqualTo(HttpStatus.NOT_FOUND)
-                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+            response.expectStatus().isEqualTo(HttpStatus.NOT_FOUND)
+                    .expectHeader().contentType(MediaType.APPLICATION_JSON)
 
         and: "response has expected body"
-        response.expectBody()
-                .json("""                  
-                {    "title":"Openweathermap error",
-                     "message":"404 Not Found"
-                 }""")
+            response.expectBody()
+                    .json("""                  
+                    {    "title":"Openweathermap error",
+                         "message":"404 Not Found"
+                     }""")
     }
 
     def "should get timeout"() {
 
         given: "city name"
-        String cityName = "Warsaw"
+            String cityName = "Warsaw"
 
         and:
-        openWeatherNotResponding()
+            openWeatherNotResponding()
 
         when: "I go to /weather/{cityName}"
-        ResponseSpec response = performGetRequest("/weather/{cityName}", cityName)
+            ResponseSpec response = performGetRequest("/weather/{cityName}", cityName)
 
         then: "response has property values"
-        response
-                .expectStatus().isEqualTo(HttpStatus.GATEWAY_TIMEOUT)
-                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+            response.expectStatus().isEqualTo(HttpStatus.GATEWAY_TIMEOUT)
+                    .expectHeader().contentType(MediaType.APPLICATION_JSON)
 
         and: "response has expected body"
-        response.expectBody()
-                .json("""                  
-                {    "title":"Timeout error",
-                     "message":null
-                 }""")
+            response.expectBody()
+                    .json("""                  
+                    {    "title":"Timeout error",
+                         "message":null
+                     }""")
     }
 
     private void openWeatherMapReturnsSuccessfullyResponse() {

@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.1.4.RELEASE'
+        springBootVersion = '2.2.4.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -23,10 +23,10 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'net.ltgt.apt'
 
 group = 'com.twitter.kamilyedrzejuq'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 mainClassName = "com.twitter.kamilyedrzejuq.Application"
 
@@ -38,10 +38,10 @@ compileJava.dependsOn(processResources)
 jar.enabled = true
 
 project.ext.versions = [
-        lombokVersion                       : '1.18.2',
+        lombokVersion                       : '1.18.12',
         swaggerVersion                      : '2.9.2',
         spockVersion                        : '1.2-groovy-2.5',
-        vavrVersion                         : '0.10.0',
+        vavrVersion                         : '0.10.2',
         mockWebServerVersion                : '3.14.1',
         gsonVersion                         : '2.8.5'
 ]
@@ -120,6 +120,6 @@ dependencyManagement {
 }
 
 wrapper {
-    gradleVersion = '5.4.1'
+    gradleVersion = '6.3'
     distributionType = Wrapper.DistributionType.ALL
 }

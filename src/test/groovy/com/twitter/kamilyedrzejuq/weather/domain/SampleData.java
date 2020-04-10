@@ -1,7 +1,7 @@
 package com.twitter.kamilyedrzejuq.weather.domain;
 
-import com.twitter.kamilyedrzejuq.weather.domain.dto.CityWeatherRequestDTO;
-import com.twitter.kamilyedrzejuq.weather.domain.dto.WeatherInfoDTO;
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.CityWeatherRequestDTO;
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.WeatherInfoDTO;
 
 class SampleData {
 

@@ -13,22 +13,21 @@ class MockResponseFactory {
 
     static MockResponse returnSuccessfullySampleResponse() {
         return new MockResponse()
-                .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 .setResponseCode(HttpStatus.OK.value())
                 .setBody(sample_response_200)
     }
 
     static MockResponse returnNotFoundSampleResponse() {
         return new MockResponse()
-                .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 .setResponseCode(HttpStatus.NOT_FOUND.value())
                 .setBody(sample_response_404)
     }
 
     static MockResponse noResponse() {
         return new MockResponse()
-                .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 .setSocketPolicy(SocketPolicy.NO_RESPONSE)
     }
-
 }
