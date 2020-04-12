@@ -5,18 +5,21 @@ import com.twitter.kamilyedrzejuq.weather.domain.exception.OpenWeatherClientErro
 import io.netty.handler.timeout.ReadTimeoutException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+@Slf4j
 @ControllerAdvice
 class ExceptionHandlingAdvice {
 
 
     @ExceptionHandler(OpenWeatherClientError.class)
     ResponseEntity<ErrorMessage> handleOpenWeatherClientError(OpenWeatherClientError e) {
+        logExc(e);
         Throwable cause = e.getCause();
         if (isWebClientResponseError(cause)) {
             WebClientResponseException exception = (WebClientResponseException) cause;
@@ -30,12 +33,14 @@ class ExceptionHandlingAdvice {
 
     @ExceptionHandler(CommandValidationError.class)
     ResponseEntity<ErrorMessage> handleBadRequest(CommandValidationError e) {
+        logExc(e);
         ErrorMessage errorMessage = createErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ReadTimeoutException.class)
     ResponseEntity<ErrorMessage> handleTimeout(ReadTimeoutException e) {
+        logExc(e);
         HttpStatus statusCode = HttpStatus.REQUEST_TIMEOUT;
         ErrorMessage errorMessage = createErrorMessage(HttpStatus.REQUEST_TIMEOUT, "Timeout occurred!");
         return new ResponseEntity<>(errorMessage, statusCode);
@@ -43,6 +48,7 @@ class ExceptionHandlingAdvice {
 
     @ExceptionHandler(Throwable.class)
     ResponseEntity<ErrorMessage> handleUnexpected(Throwable e) {
+        logExc(e);
         return unexpectedError(e);
     }
 
@@ -65,5 +71,9 @@ class ExceptionHandlingAdvice {
     static class ErrorMessage {
         private int code;
         private String message;
+    }
+
+    private void logExc(Throwable e) {
+        log.error(e.getMessage(), e);
     }
 }

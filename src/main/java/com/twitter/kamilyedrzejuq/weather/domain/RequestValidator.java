@@ -9,7 +9,7 @@ class RequestValidator {
     Either<String, FetchCityWeatherCommand> validate(FetchCityWeatherCommand command) {
         if (command == null)
             return Either.left("Command can not be null!");
-        if (StringUtils.isBlank(command.getCityName()))
+        if (StringUtils.isBlank(command.cityName()))
             return Either.left("City name can not be null or empty!");
         return Either.right(command);
     }
