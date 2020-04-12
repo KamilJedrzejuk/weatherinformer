@@ -51,8 +51,8 @@ class WeatherInfoEndpointTest extends IntegrationSpec {
         and: "response has expected body"
             response.expectBody()
                     .json("""                  
-                    {    "title":"Openweathermap error",
-                         "message":"404 Not Found"
+                    {    "code":404,
+                         "message":"Not Found"
                      }""")
     }
 
@@ -68,14 +68,14 @@ class WeatherInfoEndpointTest extends IntegrationSpec {
             ResponseSpec response = performGetRequest("/weather/{cityName}", cityName)
 
         then: "response has property values"
-            response.expectStatus().isEqualTo(HttpStatus.GATEWAY_TIMEOUT)
+            response.expectStatus().isEqualTo(HttpStatus.REQUEST_TIMEOUT)
                     .expectHeader().contentType(MediaType.APPLICATION_JSON)
 
         and: "response has expected body"
             response.expectBody()
                     .json("""                  
-                    {    "title":"Timeout error",
-                         "message":null
+                    {    "code":408,
+                         "message":"Timeout occurred!"
                      }""")
     }
 

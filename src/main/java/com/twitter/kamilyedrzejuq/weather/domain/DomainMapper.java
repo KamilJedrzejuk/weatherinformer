@@ -1,10 +1,10 @@
 package com.twitter.kamilyedrzejuq.weather.domain;
 
-import com.twitter.kamilyedrzejuq.weather.domain.boundary.CityWeatherRequestDTO;
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.FetchCityWeatherCommand;
 
 class DomainMapper {
 
-    City mapFromDto(CityWeatherRequestDTO request) {
+    City map(FetchCityWeatherCommand request) {
         return new City(request.getCityName());
     }
 }

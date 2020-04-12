@@ -5,11 +5,11 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.twitter.kamilyedrzejuq.weather.domain.boundary.WeatherInfoDTO;
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.WeatherInfoResponse;
 
 import java.io.IOException;
 
-class ResponseMapper extends StdDeserializer<WeatherInfoDTO> {
+class ResponseMapper extends StdDeserializer<WeatherInfoResponse> {
 
     ResponseMapper() {
         this(null);
@@ -20,7 +20,7 @@ class ResponseMapper extends StdDeserializer<WeatherInfoDTO> {
     }
 
     @Override
-    public WeatherInfoDTO deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+    public WeatherInfoResponse deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         String valueAsString = jsonParser.readValueAsTree().toString();
         return mapFromJson(valueAsString);
     }
@@ -75,7 +75,7 @@ class ResponseMapper extends StdDeserializer<WeatherInfoDTO> {
      * @param originalResponse - a json object
      * @return WeatherInfoDTO
      */
-    private WeatherInfoDTO mapFromJson(String originalResponse) {
+    private WeatherInfoResponse mapFromJson(String originalResponse) {
             JsonObject jobj = new Gson().fromJson(originalResponse, JsonObject.class);
             JsonObject main = jobj.get("main").getAsJsonObject();
 
@@ -84,7 +84,7 @@ class ResponseMapper extends StdDeserializer<WeatherInfoDTO> {
             final int pressure = main.get("pressure").getAsInt();
             final int humidity = main.get("humidity").getAsInt();
 
-            return WeatherInfoDTO.builder()
+            return WeatherInfoResponse.builder()
                     .city(city)
                     .temp(temp)
                     .pressure(pressure)

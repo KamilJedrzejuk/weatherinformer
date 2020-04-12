@@ -1,7 +1,7 @@
 package com.twitter.kamilyedrzejuq.infrastructure.mvc;
 
-import com.twitter.kamilyedrzejuq.weather.domain.exception.FetchWeatherException;
-import com.twitter.kamilyedrzejuq.weather.domain.exception.RequestValidationException;
+import com.twitter.kamilyedrzejuq.weather.domain.exception.CommandValidationError;
+import com.twitter.kamilyedrzejuq.weather.domain.exception.OpenWeatherClientError;
 import io.netty.handler.timeout.ReadTimeoutException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,65 +15,55 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 class ExceptionHandlingAdvice {
 
 
-    @ExceptionHandler(FetchWeatherException.class)
-    ResponseEntity<ErrorMessage> handle(FetchWeatherException e) {
+    @ExceptionHandler(OpenWeatherClientError.class)
+    ResponseEntity<ErrorMessage> handleOpenWeatherClientError(OpenWeatherClientError e) {
         Throwable cause = e.getCause();
-
-        if(isClientError(cause))
-            return propagateClientError((WebClientResponseException) cause);
-        if(isValidationError(cause))
-            return validationError((RequestValidationException) cause);
-        if(isTimeoutError(cause))
-            return timeoutError((ReadTimeoutException) cause);
-
-
+        if (isWebClientResponseError(cause)) {
+            WebClientResponseException exception = (WebClientResponseException) cause;
+            HttpStatus statusCode = exception.getStatusCode();
+            String statusText = exception.getStatusText();
+            ErrorMessage errorMessage = createErrorMessage(statusCode, statusText);
+            return new ResponseEntity<>(errorMessage, statusCode);
+        }
         return unexpectedError(cause);
     }
 
-    private boolean isClientError(Throwable error) {
+    @ExceptionHandler(CommandValidationError.class)
+    ResponseEntity<ErrorMessage> handleBadRequest(CommandValidationError e) {
+        ErrorMessage errorMessage = createErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ReadTimeoutException.class)
+    ResponseEntity<ErrorMessage> handleTimeout(ReadTimeoutException e) {
+        HttpStatus statusCode = HttpStatus.REQUEST_TIMEOUT;
+        ErrorMessage errorMessage = createErrorMessage(HttpStatus.REQUEST_TIMEOUT, "Timeout occurred!");
+        return new ResponseEntity<>(errorMessage, statusCode);
+    }
+
+    @ExceptionHandler(Throwable.class)
+    ResponseEntity<ErrorMessage> handleUnexpected(Throwable e) {
+        return unexpectedError(e);
+    }
+
+    private boolean isWebClientResponseError(Throwable error) {
         return error instanceof WebClientResponseException;
-    }
-
-    private boolean isValidationError(Throwable error){
-        return error instanceof RequestValidationException;
-    }
-
-    private boolean isTimeoutError(Throwable error) {
-        return error instanceof ReadTimeoutException;
-    }
-
-    private ResponseEntity<ErrorMessage> propagateClientError(WebClientResponseException e) {
-        HttpStatus statusCode = e.getStatusCode();
-        ErrorMessage errorMessage = createErrorMessage("Openweathermap error", e.getMessage());
-        return new ResponseEntity<>(errorMessage, statusCode);
-    }
-
-    private ResponseEntity<ErrorMessage> validationError(RequestValidationException e) {
-        HttpStatus statusCode = HttpStatus.UNPROCESSABLE_ENTITY;
-        ErrorMessage errorMessage = createErrorMessage("Validation error", e.getMessage());
-        return new ResponseEntity<>(errorMessage, statusCode);
-    }
-
-    private ResponseEntity<ErrorMessage> timeoutError(ReadTimeoutException e) {
-        HttpStatus statusCode = HttpStatus.GATEWAY_TIMEOUT;
-        ErrorMessage errorMessage = createErrorMessage("Timeout error", e.getMessage());
-        return new ResponseEntity<>(errorMessage, statusCode);
     }
 
     private ResponseEntity<ErrorMessage> unexpectedError(Throwable e) {
         HttpStatus statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
-        ErrorMessage errorMessage = createErrorMessage("Unexpected error", e.getMessage());
+        ErrorMessage errorMessage = createErrorMessage(statusCode, e.getMessage());
         return new ResponseEntity<>(errorMessage, statusCode);
     }
 
-    private ErrorMessage createErrorMessage(String title, String message) {
-        return new ErrorMessage(title, message);
+    private ErrorMessage createErrorMessage(HttpStatus code, String message) {
+        return new ErrorMessage(code.value(), message);
     }
 
     @Getter
     @AllArgsConstructor
-    class ErrorMessage {
-        private String title;
+    static class ErrorMessage {
+        private int code;
         private String message;
     }
 }

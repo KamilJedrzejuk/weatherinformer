@@ -1,7 +1,7 @@
 package com.twitter.kamilyedrzejuq.weather.domain;
 
-import com.twitter.kamilyedrzejuq.weather.domain.boundary.CityWeatherRequestDTO;
-import com.twitter.kamilyedrzejuq.weather.domain.boundary.WeatherInfoDTO;
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.FetchCityWeatherCommand;
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.WeatherInfoResponse;
 
 class SampleData {
 
@@ -10,19 +10,15 @@ class SampleData {
     static final int pressure = 1021;
     static final int humidity = 77;
 
-    static final CityWeatherRequestDTO requestDTO = createRequest(city);
-    static final WeatherInfoDTO weatherResponseDTO = createResponse(city, temperature, pressure, humidity);
+    static final FetchCityWeatherCommand requestDTO = createRequest(city);
+    static final WeatherInfoResponse weatherResponseDTO = createResponse(city, temperature, pressure, humidity);
 
-    static final Throwable anyException = new RuntimeException()
-;
-
-    private static CityWeatherRequestDTO createRequest(String cityName) {
-        CityWeatherRequestDTO requestDTO = new CityWeatherRequestDTO(cityName);
-;        return requestDTO;
+    private static FetchCityWeatherCommand createRequest(String cityName) {
+        return FetchCityWeatherCommand.of(cityName);
     }
 
-    private static WeatherInfoDTO createResponse(String city, int temp, int pressure, int humidity) {
-        return WeatherInfoDTO.builder()
+    private static WeatherInfoResponse createResponse(String city, int temp, int pressure, int humidity) {
+        return WeatherInfoResponse.builder()
                 .city(city)
                 .temp(temp)
                 .pressure(pressure)
