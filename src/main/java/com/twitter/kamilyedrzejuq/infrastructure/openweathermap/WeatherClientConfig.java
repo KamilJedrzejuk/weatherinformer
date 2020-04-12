@@ -3,7 +3,7 @@ package com.twitter.kamilyedrzejuq.infrastructure.openweathermap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.twitter.kamilyedrzejuq.weather.domain.WeatherClient;
-import com.twitter.kamilyedrzejuq.weather.domain.dto.WeatherInfoDTO;
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.WeatherInfoResponse;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import lombok.Data;
@@ -32,7 +32,7 @@ class WeatherClientConfig {
     @Bean
     ObjectMapper objectMapper() {
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(WeatherInfoDTO.class, new ResponseMapper());
+        module.addDeserializer(WeatherInfoResponse.class, new ResponseMapper());
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(module);
         return objectMapper;

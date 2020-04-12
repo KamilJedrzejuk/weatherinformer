@@ -1,9 +1,9 @@
 package com.twitter.kamilyedrzejuq.weather.domain
 
-import com.twitter.kamilyedrzejuq.weather.domain.dto.CityWeatherRequestDTO
-import com.twitter.kamilyedrzejuq.weather.domain.dto.WeatherInfoDTO
-import com.twitter.kamilyedrzejuq.weather.domain.exception.FetchWeatherException
-import com.twitter.kamilyedrzejuq.weather.domain.exception.RequestValidationException
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.FetchCityWeatherCommand
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.WeatherInfoResponse
+import com.twitter.kamilyedrzejuq.weather.domain.exception.OpenWeatherClientError
+import com.twitter.kamilyedrzejuq.weather.domain.exception.CommandValidationError
 import reactor.core.publisher.Mono
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -18,60 +18,60 @@ class WeatherServiceSpec extends Specification {
     def "should return successfully response"() {
 
         given: "we have a request with city name"
-        CityWeatherRequestDTO request = requestDTO
+            FetchCityWeatherCommand request = requestDTO
 
         and: "weather client returns successfully response"
-        weatherClient.fetchWeather(_ as City) >> Mono.just(weatherResponseDTO)
+            weatherClient.fetchWeather(_ as City) >> Mono.just(weatherResponseDTO)
 
         when: "we ask for weather"
-        WeatherInfoDTO weather = fetchWeatherInfo(request)
+            WeatherInfoResponse weather = fetchWeatherInfo(request)
 
         then: "system returns weather information"
-        with(weather) {
-            it.city == city
-            it.temp == temperature
-            it.pressure == pressure
-            it.humidity == humidity
-        }
+            with(weather) {
+                it.city == city
+                it.temp == temperature
+                it.pressure == pressure
+                it.humidity == humidity
+            }
     }
 
     @Unroll
     def "should throw exception when request is incorrect (cityName - '#cityName')"() {
 
         given: "we have request with city name"
-        CityWeatherRequestDTO request = new CityWeatherRequestDTO(cityName)
+            FetchCityWeatherCommand request = new FetchCityWeatherCommand(cityName)
 
-        when: "we ask for repository details"
-        fetchWeatherInfo(request)
+        when: "we ask for weather information"
+            fetchWeatherInfo(request)
 
         then: "exception must be thrown"
-        def exc = thrown(expectedException)
+            def exc = thrown(expectedException)
 
         and: "it is a validation exception"
-        exc.getCause().class == RequestValidationException
+            exc.class == CommandValidationError
 
         where:
-        cityName || expectedException
-        null     || FetchWeatherException
-        ""       || FetchWeatherException
+            cityName || expectedException
+            null     || CommandValidationError
+            ""       || CommandValidationError
     }
 
     def "should throw exception while invoking 3rd party weather service"() {
 
         given: "we have a request with city name"
-        CityWeatherRequestDTO request = requestDTO
+            FetchCityWeatherCommand request = requestDTO
 
         and: "weather client throw any exception"
-        weatherClient.fetchWeather(_ as City) >> Mono.error(anyException)
+            weatherClient.fetchWeather(_ as City) >> Mono.error(new OpenWeatherClientError("Some error"))
 
         when: "we ask for weather information"
-        fetchWeatherInfo(request)
+            fetchWeatherInfo(request)
 
         then: "exception must be thrown"
-        thrown(FetchWeatherException)
+            thrown(OpenWeatherClientError)
     }
 
-    private WeatherInfoDTO fetchWeatherInfo(CityWeatherRequestDTO request) {
+    private WeatherInfoResponse fetchWeatherInfo(FetchCityWeatherCommand request) {
         return weatherService.fetch(Mono.just(request)).block()
     }
 }

@@ -1,21 +1,16 @@
 package com.twitter.kamilyedrzejuq.weather.domain;
 
-import com.twitter.kamilyedrzejuq.weather.domain.dto.CityWeatherRequestDTO;
-import com.twitter.kamilyedrzejuq.weather.domain.exception.RequestValidationException;
+import com.twitter.kamilyedrzejuq.weather.domain.boundary.FetchCityWeatherCommand;
 import io.vavr.control.Either;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 class RequestValidator {
 
-    CityWeatherRequestDTO validate(CityWeatherRequestDTO request) {
-        return check(request).getOrElseThrow(RequestValidationException::new);
-    }
-
-    private Either<String, CityWeatherRequestDTO> check(CityWeatherRequestDTO request) {
-        if (request == null)
-            return Either.left("Request can not be null!");
-        if (StringUtils.isEmpty(request.getCityName()))
+    Either<String, FetchCityWeatherCommand> validate(FetchCityWeatherCommand command) {
+        if (command == null)
+            return Either.left("Command can not be null!");
+        if (StringUtils.isBlank(command.getCityName()))
             return Either.left("City name can not be null or empty!");
-        return Either.right(request);
+        return Either.right(command);
     }
 }
