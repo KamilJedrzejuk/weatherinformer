@@ -5,9 +5,9 @@ information from openweathermap site.
 It has end-to-end tests written in Spock.
 
 ### Stack technology:
-  - JAVA 11, Groovy
+  - JAVA 14, Groovy
   - Lombok - is a java library that automatically plugs into your editor and build tools, spicing up your java
-  - Gradle
+  - Gradle 6
   - Spring BOOT 2.2.x
   - Spring Webflux - provides reactive programming support for web applications.
   - Vavr - functional library for Java
