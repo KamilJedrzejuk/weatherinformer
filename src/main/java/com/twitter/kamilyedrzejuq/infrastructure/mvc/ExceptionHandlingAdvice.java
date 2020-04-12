@@ -52,7 +52,7 @@ class ExceptionHandlingAdvice {
 
     private ResponseEntity<ErrorMessage> unexpectedError(Throwable e) {
         HttpStatus statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
-        ErrorMessage errorMessage = createErrorMessage(statusCode, e.getMessage());
+        ErrorMessage errorMessage = createErrorMessage(statusCode, "Unexpected error!");
         return new ResponseEntity<>(errorMessage, statusCode);
     }
 
