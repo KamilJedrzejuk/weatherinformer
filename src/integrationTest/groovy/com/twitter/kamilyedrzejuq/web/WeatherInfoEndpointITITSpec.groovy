@@ -1,12 +1,13 @@
 package com.twitter.kamilyedrzejuq.web
 
-import com.twitter.kamilyedrzejuq.base.IntegrationSpec
+import com.twitter.kamilyedrzejuq.base.IntegrationITSpec
 import com.twitter.kamilyedrzejuq.infrastructure.openweathermap.MockResponseFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+
 import static org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec
 
-class WeatherInfoEndpointTest extends IntegrationSpec {
+class WeatherInfoEndpointITITSpec extends IntegrationITSpec {
 
     def "should get weather info"() {
 

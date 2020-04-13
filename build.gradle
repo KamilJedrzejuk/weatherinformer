@@ -71,6 +71,13 @@ repositories {
 test {
     useJUnitPlatform()
     jvmArgs(['--enable-preview'])
+    afterSuite { desc, result ->
+        if (!desc.parent) {
+            if (result.testCount == 0) {
+                throw new IllegalStateException("No tests were found. Failing the build")
+            }
+        }
+    }
     testLogging {
         exceptionFormat = 'full'
         events = ["STARTED", "PASSED", "SKIPPED", "FAILED"]
@@ -101,10 +108,10 @@ configurations {
 task integrationTest(type: Test) {
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
-    include '**/*Spec.*'
-    include '**/*Test.*'
+    include '**/*ITSpec.*'
+    include '**/*ITTest.*'
 
-    systemProperty 'spring.profiles.active', 'integration'
+    //systemProperty 'spring.profiles.active', 'integration'
     outputs.upToDateWhen { false }
 }
 

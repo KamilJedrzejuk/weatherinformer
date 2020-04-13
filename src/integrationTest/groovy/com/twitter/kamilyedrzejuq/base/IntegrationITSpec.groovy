@@ -20,7 +20,7 @@ import static org.springframework.test.web.reactive.server.WebTestClient.Respons
 @SpringBootTest(classes = Application, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(WebClientTestConfig)
 @ActiveProfiles("test")
-abstract class IntegrationSpec extends Specification {
+abstract class IntegrationITSpec extends Specification {
 
     @Autowired
     ApplicationContext context
