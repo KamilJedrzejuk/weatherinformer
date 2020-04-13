@@ -7,7 +7,7 @@ import org.springframework.http.MediaType
 
 import static org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec
 
-class WeatherInfoEndpointITITSpec extends IntegrationITSpec {
+class WeatherInfoEndpointITSpec extends IntegrationITSpec {
 
     def "should get weather info"() {
 

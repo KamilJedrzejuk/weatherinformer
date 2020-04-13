@@ -43,10 +43,6 @@ tasks.withType(GroovyCompile) {
     it.options.compilerArgs.add('--enable-preview')
 }
 
-tasks.withType(Test) {
-    jvmArgs += "--enable-preview"
-}
-
 [bootJar, bootRun, bootDistTar, bootDistZip, distTar, distZip]*.enabled = false
 jar.enabled = true
 
@@ -69,8 +65,8 @@ repositories {
 }
 
 test {
-    useJUnitPlatform()
     jvmArgs(['--enable-preview'])
+    useJUnitPlatform()
     afterSuite { desc, result ->
         if (!desc.parent) {
             if (result.testCount == 0) {
@@ -111,7 +107,6 @@ task integrationTest(type: Test) {
     include '**/*ITSpec.*'
     include '**/*ITTest.*'
 
-    //systemProperty 'spring.profiles.active', 'integration'
     outputs.upToDateWhen { false }
 }
 
