@@ -41,7 +41,10 @@ tasks.withType(JavaCompile).each {
 
 tasks.withType(GroovyCompile) {
     it.options.compilerArgs.add('--enable-preview')
+}
 
+tasks.withType(Test) {
+    jvmArgs += "--enable-preview"
 }
 
 [bootJar, bootRun, bootDistTar, bootDistZip, distTar, distZip]*.enabled = false
@@ -125,9 +128,9 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude(
-                group : 'org.ow2.asm'
-        )
+//        exclude(
+//                group : 'org.ow2.asm'
+//        )
     }
     testImplementation("com.squareup.okhttp3:mockwebserver:${versions.mockWebServerVersion}")
 

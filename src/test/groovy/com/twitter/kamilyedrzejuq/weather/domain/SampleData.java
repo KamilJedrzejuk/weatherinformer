@@ -14,7 +14,7 @@ class SampleData {
     static final WeatherInfoResponse weatherResponseDTO = createResponse(city, temperature, pressure, humidity);
 
     private static FetchCityWeatherCommand createRequest(String cityName) {
-        return FetchCityWeatherCommand.of(cityName);
+        return new FetchCityWeatherCommand(cityName);
     }
 
     private static WeatherInfoResponse createResponse(String city, int temp, int pressure, int humidity) {
